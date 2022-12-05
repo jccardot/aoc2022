@@ -72,24 +72,18 @@ DEFINE VARIABLE iLength AS INTEGER     NO-UNDO.
 DEFINE VARIABLE iMove   AS INTEGER     NO-UNDO.
 DEFINE VARIABLE iTo     AS INTEGER     NO-UNDO.
 
-ASSIGN
-    cStack[1] = "NSDCVQT"
-    cStack[2] = "MFV"
-    cStack[3] = "FQWDPNHM"
-    cStack[4] = "DQRFT"
-    cStack[5] = "RFMNQHVB"
-    cStack[6] = "CFGNPWQ"
-    cStack[7] = "WFRLCT"
-    cStack[8] = "TZNS"
-    cStack[9] = "MSDJRQHN"
-    .
-
 ETIME(TRUE).
     
 INPUT FROM C:\Work\aoc\aoc2022\day5.txt.
 REPEAT:
     IMPORT UNFORMATTED cLine.
     IF cLine = "" THEN LEAVE.
+    DO i = 1 TO 9:
+        cStack[i] = SUBSTRING(cLine, (i - 1) * 4 + 2, 1) + cStack[i].
+    END.
+    DO i = 1 TO 9:
+        cStack[i] = TRIM(cStack[i]).
+    END.
 END.
 REPEAT:
     IMPORT cDummy iMove cDummy iFrom cDummy iTo. /* move 1 from 8 to 7 */
@@ -110,7 +104,7 @@ MESSAGE ETIME SKIP
 Renseignement (Press HELP to view stack trace)
 ---------------------------
 2 
-HRTFQVWNN
+HRFTQVWNN
 ---------------------------
 OK   Aide   
 ---------------------------

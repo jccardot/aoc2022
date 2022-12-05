@@ -69,37 +69,29 @@ After the rearrangement procedure completes, what crate ends up on top of each s
  1   2   3   4   5   6   7   8   9 
 */
 
-DEFINE VARIABLE cStack  AS CHARACTER   EXTENT 9 NO-UNDO.
 DEFINE VARIABLE cDummy  AS CHARACTER   NO-UNDO.
 DEFINE VARIABLE cLine   AS CHARACTER   NO-UNDO.
+DEFINE VARIABLE cResult AS CHARACTER   NO-UNDO.
+DEFINE VARIABLE cStack  AS CHARACTER   EXTENT 9 NO-UNDO.
 DEFINE VARIABLE i       AS INTEGER     NO-UNDO.
 DEFINE VARIABLE iFrom   AS INTEGER     NO-UNDO.
 DEFINE VARIABLE iLength AS INTEGER     NO-UNDO.
 DEFINE VARIABLE iMove   AS INTEGER     NO-UNDO.
 DEFINE VARIABLE iTo     AS INTEGER     NO-UNDO.
 
-ASSIGN
-    cStack[1] = "NSDCVQT"
-    cStack[2] = "MFV"
-    cStack[3] = "FQWDPNHM"
-    cStack[4] = "DQRFT"
-    cStack[5] = "RFMNQHVB"
-    cStack[6] = "CFGNPWQ"
-    cStack[7] = "WFRLCT"
-    cStack[8] = "TZNS"
-    cStack[9] = "MSDJRQHN".
-
 ETIME(TRUE).
     
 INPUT FROM C:\Work\aoc\aoc2022\day5.txt.
 REPEAT:
     IMPORT UNFORMATTED cLine.
-    MESSAGE cLine
-        VIEW-AS ALERT-BOX INFO BUTTONS OK.
     IF cLine = "" THEN LEAVE.
+    DO i = 1 TO 9:
+        cStack[i] = SUBSTRING(cLine, (i - 1) * 4 + 2, 1) + cStack[i].
+    END.
+    DO i = 1 TO 9:
+        cStack[i] = TRIM(cStack[i]).
+    END.
 END.
-MESSAGE "step 2"
-    VIEW-AS ALERT-BOX INFO BUTTONS OK.
 REPEAT:
     IMPORT cDummy iMove cDummy iFrom cDummy iTo. /* move 1 from 8 to 7 */
     DO i = 1 TO iMove:
@@ -109,24 +101,19 @@ REPEAT:
     END.
 END.
 INPUT CLOSE.
+DO i = 1 TO 9:
+    cResult = cResult + SUBSTRING(cStack[i], LENGTH(cStack[i]), 1).
+END.
 
 MESSAGE ETIME SKIP
-    cStack[1]
-    cStack[2]
-    cStack[3]
-    cStack[4]
-    cStack[5]
-    cStack[6]
-    cStack[7]
-    cStack[8]
-    cStack[9]
+    cResult 
     VIEW-AS ALERT-BOX INFO BUTTONS OK.
 /*
 ---------------------------
 Renseignement (Press HELP to view stack trace)
 ---------------------------
-11354 
-BFQZNRF NR D FFTMS CWVQPPQQDNQ WR NDSTTMMJFLR HCVC HGNNTSQHWVFMD
+8 
+FRDSQRRCD
 ---------------------------
 OK   Aide   
 ---------------------------
